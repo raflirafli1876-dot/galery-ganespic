@@ -1,0 +1,1 @@
+DELETE FROM public.activity_photos WHERE image_url LIKE '%t.jpg%';
