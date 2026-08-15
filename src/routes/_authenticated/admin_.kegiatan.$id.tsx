@@ -15,10 +15,7 @@ import {
 
 export const Route = createFileRoute("/_authenticated/admin_/kegiatan/$id")({
   head: () => ({
-    meta: [
-      { title: "Kelola Kegiatan — Ganespic XXV" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Kelola Kegiatan — Ganespic XXV" }, { name: "robots", content: "noindex" }],
   }),
   component: ManageActivityPage,
 });
@@ -223,10 +220,7 @@ function ManageActivityPage() {
   async function handleCaptionBlur(photo: ActivityPhoto, value: string) {
     const caption = value.trim();
     if (caption === photo.caption) return;
-    const { error } = await supabase
-      .from("activity_photos")
-      .update({ caption })
-      .eq("id", photo.id);
+    const { error } = await supabase.from("activity_photos").update({ caption }).eq("id", photo.id);
     if (error) {
       toast.error(`Gagal menyimpan keterangan: ${error.message}`);
       return;
@@ -316,7 +310,9 @@ function ManageActivityPage() {
               Kelola: <span className="italic text-accent-strong">{activity.title}</span>
             </h1>
             <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {activity.activity_date ? formatActivityDate(activity.activity_date) : "Tanpa tanggal"}
+              {activity.activity_date
+                ? formatActivityDate(activity.activity_date)
+                : "Tanpa tanggal"}
               {" · "}
               {photos.length} foto
             </p>

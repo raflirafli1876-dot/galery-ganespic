@@ -1,7 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const supabaseUrl = import.meta.env['VITE_SUPABASE_URL'] as string;
+const supabaseAnonKey = import.meta.env['VITE_SUPABASE_ANON_KEY'] as string;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -40,8 +40,8 @@ export type ActivityWithItems = Activity & {
 export async function fetchGallery(): Promise<ActivityWithItems[]> {
   const [{ data: activities, error: actError }, { data: items, error: itemError }] =
     await Promise.all([
-      supabase.from('activities').select('*').order('display_order', { ascending: true }),
-      supabase.from('gallery_items').select('*').order('display_order', { ascending: true }),
+      supabase.from("activities").select("*").order("display_order", { ascending: true }),
+      supabase.from("gallery_items").select("*").order("display_order", { ascending: true }),
     ]);
 
   if (actError) throw actError;
@@ -58,9 +58,9 @@ export async function fetchGallery(): Promise<ActivityWithItems[]> {
 
 export async function fetchTeam(): Promise<TeamMember[]> {
   const { data, error } = await supabase
-    .from('team_members')
-    .select('*')
-    .order('display_order', { ascending: true });
+    .from("team_members")
+    .select("*")
+    .order("display_order", { ascending: true });
 
   if (error) throw error;
   return (data ?? []) as TeamMember[];

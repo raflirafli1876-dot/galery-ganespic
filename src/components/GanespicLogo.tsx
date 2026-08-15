@@ -1,11 +1,11 @@
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap } from "lucide-react";
 
 type GanespicLogoProps = {
   size?: number;
   className?: string;
 };
 
-export default function GanespicLogo({ size = 200, className = '' }: GanespicLogoProps) {
+export default function GanespicLogo({ size = 200, className = "" }: GanespicLogoProps) {
   return (
     <div
       className={`relative inline-flex items-center justify-center ${className}`}
@@ -13,15 +13,27 @@ export default function GanespicLogo({ size = 200, className = '' }: GanespicLog
     >
       <svg viewBox="0 0 280 280" className="absolute inset-0 h-full w-full">
         <defs>
-          <path
-            id="ganespic-motto-arc"
-            d="M 25 140 A 115 115 0 0 1 255 140"
-            fill="none"
-          />
+          <path id="ganespic-motto-arc" d="M 25 140 A 115 115 0 0 1 255 140" fill="none" />
         </defs>
         {/* Decorative rings */}
-        <circle cx="140" cy="140" r="125" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.25" />
-        <circle cx="140" cy="140" r="118" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.15" />
+        <circle
+          cx="140"
+          cy="140"
+          r="125"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          opacity="0.25"
+        />
+        <circle
+          cx="140"
+          cy="140"
+          r="118"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="0.5"
+          opacity="0.15"
+        />
         {/* Motto text following the top semicircle arc */}
         <text
           fill="currentColor"

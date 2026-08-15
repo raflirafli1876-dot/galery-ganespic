@@ -1,29 +1,29 @@
-# Welcome to your Lovable project
+# Galeri Angkatan XXV Ganespic
 
-This project was built with [Lovable](https://lovable.dev).
+Arsip kenangan Angkatan XXV Ganespic — perjalanan enam tahun dari kelas 7 MTs hingga kelas 12 MA dalam foto dan cerita.
 
-## Build with Lovable
+## Stack
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- [TanStack Start](https://tanstack.com/start) — SSR framework
+- [TanStack Router](https://tanstack.com/router) — file-based routing
+- [React 19](https://react.dev) + TypeScript
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [Supabase](https://supabase.com) — database & auth
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Butuh Node.js v18+ dan npm.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+git clone <repo-url>
+cd galery-ganespic
+npm install
 npm run dev
 ```
 
-## Built with
+## Build & Deploy
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+```sh
+npm run build    # production build
+npm run preview  # preview build lokal
+```

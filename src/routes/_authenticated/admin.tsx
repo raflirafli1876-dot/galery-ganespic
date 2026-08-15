@@ -10,10 +10,7 @@ import { GRADE_OPTIONS, formatActivityDate, gradeLabel, slugify } from "@/lib/ga
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
-    meta: [
-      { title: "Dasbor Kurator — Ganespic XXV" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Dasbor Kurator — Ganespic XXV" }, { name: "robots", content: "noindex" }],
   }),
   component: AdminDashboard,
 });
@@ -74,10 +71,7 @@ function AdminDashboard() {
   });
 
   const activities = activitiesQuery.data ?? [];
-  const totalPhotos = activities.reduce(
-    (sum, a) => sum + (a.activity_photos[0]?.count ?? 0),
-    0,
-  );
+  const totalPhotos = activities.reduce((sum, a) => sum + (a.activity_photos[0]?.count ?? 0), 0);
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -148,8 +142,8 @@ function AdminDashboard() {
         <div className="w-full max-w-md rounded-2xl border border-border bg-card p-10 text-center shadow-elegant">
           <h1 className="font-serif text-3xl text-foreground">Akses Dibatasi</h1>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Akun <span className="font-semibold text-foreground">{user?.email}</span> belum
-            memiliki hak admin. Hubungi kurator arsip untuk diberikan akses.
+            Akun <span className="font-semibold text-foreground">{user?.email}</span> belum memiliki
+            hak admin. Hubungi kurator arsip untuk diberikan akses.
           </p>
           <div className="mt-8 flex flex-col gap-3">
             <Link
@@ -318,28 +312,18 @@ function AdminDashboard() {
               const photoCount = activity.activity_photos[0]?.count ?? 0;
               const thumb =
                 activity.cover_image_url ??
-                activity.photos
-                  ?.slice()
-                  .sort((a, b) => a.sort_order - b.sort_order)[0]?.image_url ??
+                activity.photos?.slice().sort((a, b) => a.sort_order - b.sort_order)[0]
+                  ?.image_url ??
                 null;
               return (
-                <div
-                  key={activity.id}
-                  className="flex flex-wrap items-center gap-4 px-6 py-5"
-                >
+                <div key={activity.id} className="flex flex-wrap items-center gap-4 px-6 py-5">
                   {thumb ? (
-                    <img
-                      src={thumb}
-                      alt=""
-                      className="h-14 w-20 rounded-lg object-cover"
-                    />
+                    <img src={thumb} alt="" className="h-14 w-20 rounded-lg object-cover" />
                   ) : (
                     <div className="h-14 w-20 rounded-lg bg-secondary" />
                   )}
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-serif text-lg text-foreground">
-                      {activity.title}
-                    </p>
+                    <p className="truncate font-serif text-lg text-foreground">{activity.title}</p>
                     <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
                       {gradeLabel(activity)}
                       {activity.activity_date

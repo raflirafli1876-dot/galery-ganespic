@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { X, ExternalLink, Code2, Sparkles } from 'lucide-react';
-import type { TeamMember } from '@/lib/supabase';
+import { useEffect } from "react";
+import { X, ExternalLink, Code2, Sparkles } from "lucide-react";
+import type { TeamMember } from "@/lib/supabase";
 
 type TeamModalProps = {
   open: boolean;
@@ -12,21 +12,21 @@ type TeamModalProps = {
 export default function TeamModal({ open, onClose, members, loading }: TeamModalProps) {
   useEffect(() => {
     if (open) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [open]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") onClose();
     };
-    if (open) window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    if (open) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
   if (!open) return null;
@@ -35,12 +35,12 @@ export default function TeamModal({ open, onClose, members, loading }: TeamModal
     <div
       className="fixed inset-0 z-[70] flex items-start justify-center overflow-y-auto bg-sage-950/80 p-4 backdrop-blur-sm sm:items-center"
       onClick={onClose}
-      style={{ animation: 'var(--animate-fade-in)' }}
+      style={{ animation: "var(--animate-fade-in)" }}
     >
       <div
         className="relative my-8 w-full max-w-4xl rounded-3xl border border-sage-200 bg-cream-50 p-6 shadow-2xl sm:p-8 dark:border-sage-800 dark:bg-sage-950"
         onClick={(e) => e.stopPropagation()}
-        style={{ animation: 'var(--animate-scale-in)' }}
+        style={{ animation: "var(--animate-scale-in)" }}
       >
         <button
           onClick={onClose}
@@ -66,7 +66,10 @@ export default function TeamModal({ open, onClose, members, loading }: TeamModal
         {loading && (
           <div className="grid gap-4 sm:grid-cols-2">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-40 animate-pulse rounded-2xl bg-sage-100 dark:bg-sage-900/40" />
+              <div
+                key={i}
+                className="h-40 animate-pulse rounded-2xl bg-sage-100 dark:bg-sage-900/40"
+              />
             ))}
           </div>
         )}
@@ -79,7 +82,7 @@ export default function TeamModal({ open, onClose, members, loading }: TeamModal
                 key={m.id}
                 className="group flex items-start gap-4 rounded-2xl border border-sage-100 bg-white p-5 transition-all hover:shadow-lg hover:shadow-sage-400/10 dark:border-sage-900 dark:bg-sage-900/30"
                 style={{
-                  animation: 'var(--animate-fade-up)',
+                  animation: "var(--animate-fade-up)",
                   animationDelay: `${i * 0.08}s`,
                 }}
               >
@@ -97,7 +100,7 @@ export default function TeamModal({ open, onClose, members, loading }: TeamModal
                     </div>
                   )}
                   <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-sage-400 text-[10px] font-bold text-sage-950 ring-2 ring-white dark:ring-sage-950">
-                    {String(i + 1).padStart(2, '0')}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
 

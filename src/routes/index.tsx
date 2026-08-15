@@ -31,8 +31,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Ganespic XXV — Arsip Kenangan Angkatan 25" },
       {
         property: "og:description",
-        content:
-          "Perjalanan enam tahun dari kelas 7 MTs hingga kelas 12 MA dalam foto dan cerita.",
+        content: "Perjalanan enam tahun dari kelas 7 MTs hingga kelas 12 MA dalam foto dan cerita.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -107,9 +106,13 @@ function EraSection({
 
       <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-12">
         {activities.map((activity, i) => (
-          <Reveal key={activity.id} delay={i * 120} className={
-            i % 3 === 0 ? "md:col-span-8" : i % 3 === 1 ? "md:col-span-4" : "md:col-span-12"
-          }>
+          <Reveal
+            key={activity.id}
+            delay={i * 120}
+            className={
+              i % 3 === 0 ? "md:col-span-8" : i % 3 === 1 ? "md:col-span-4" : "md:col-span-12"
+            }
+          >
             <ActivityCard
               activity={activity}
               variant={i % 3 === 0 ? "wide" : i % 3 === 1 ? "tall" : "banner"}
@@ -153,9 +156,9 @@ function HomePage() {
             Enam Tahun, <span className="italic text-accent-strong">Satu Kisah</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Dari langkah pertama di bangku kelas 7 MTs hingga hari kelulusan di
-            kelas 12 MA — setiap kegiatan, setiap foto, dan setiap cerita
-            tersimpan rapi dalam arsip kenangan Ganespic XXV.
+            Dari langkah pertama di bangku kelas 7 MTs hingga hari kelulusan di kelas 12 MA — setiap
+            kegiatan, setiap foto, dan setiap cerita tersimpan rapi dalam arsip kenangan Ganespic
+            XXV.
           </p>
           <div className="mt-8 flex items-center justify-center gap-4">
             <span className="hidden h-px w-10 bg-accent-strong/40 sm:block" />
@@ -246,9 +249,8 @@ function HomePage() {
                 Dasbor Kurator
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-primary-foreground/70 md:text-base">
-                Area khusus admin Ganespic XXV untuk menjaga arsip tetap hidup:
-                menambah kegiatan, memperbarui cerita, serta mengelola foto dari
-                unggahan langsung maupun tautan cloud.
+                Area khusus admin Ganespic XXV untuk menjaga arsip tetap hidup: menambah kegiatan,
+                memperbarui cerita, serta mengelola foto dari unggahan langsung maupun tautan cloud.
               </p>
             </div>
           </Reveal>
@@ -261,9 +263,7 @@ function HomePage() {
                   className="group flex h-full w-full flex-col rounded-2xl border border-primary-foreground/15 bg-primary-foreground/5 p-6 text-left transition-colors hover:border-accent hover:bg-primary-foreground/10"
                 >
                   <tile.icon className="h-7 w-7 text-accent" />
-                  <h3 className="mt-5 font-serif text-xl text-primary-foreground">
-                    {tile.title}
-                  </h3>
+                  <h3 className="mt-5 font-serif text-xl text-primary-foreground">{tile.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-primary-foreground/65">
                     {tile.description}
                   </p>

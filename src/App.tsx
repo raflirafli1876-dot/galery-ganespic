@@ -1,16 +1,11 @@
-import { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import Gallery from '@/components/Gallery';
-import TeamModal from '@/components/TeamModal';
-import Footer from '@/components/Footer';
-import { useTheme } from '@/hooks/useTheme';
-import {
-  fetchGallery,
-  fetchTeam,
-  type ActivityWithItems,
-  type TeamMember,
-} from '@/lib/supabase';
+import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import Gallery from "@/components/Gallery";
+import TeamModal from "@/components/TeamModal";
+import Footer from "@/components/Footer";
+import { useTheme } from "@/hooks/useTheme";
+import { fetchGallery, fetchTeam, type ActivityWithItems, type TeamMember } from "@/lib/supabase";
 
 function App() {
   const { theme, toggle } = useTheme();

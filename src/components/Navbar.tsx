@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Menu, Moon, Sun, X, Code2 } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Menu, Moon, Sun, X, Code2 } from "lucide-react";
 
 type NavbarProps = {
-  theme: 'light' | 'dark';
+  theme: "light" | "dark";
   onToggleTheme: () => void;
   onOpenTeam: () => void;
 };
 
 const NAV_LINKS = [
-  { label: 'Beranda', href: '#home' },
-  { label: 'Galeri', href: '#galeri' },
-  { label: 'Kegiatan', href: '#kegiatan' },
-  { label: 'Tentang', href: '#tentang' },
+  { label: "Beranda", href: "#home" },
+  { label: "Galeri", href: "#galeri" },
+  { label: "Kegiatan", href: "#kegiatan" },
+  { label: "Tentang", href: "#tentang" },
 ];
 
 export default function Navbar({ theme, onToggleTheme, onOpenTeam }: NavbarProps) {
@@ -21,14 +21,14 @@ export default function Navbar({ theme, onToggleTheme, onOpenTeam }: NavbarProps
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass shadow-sm' : 'bg-transparent'
+        scrolled ? "glass shadow-sm" : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
@@ -59,7 +59,7 @@ export default function Navbar({ theme, onToggleTheme, onOpenTeam }: NavbarProps
             aria-label="Ganti tema"
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/50 bg-white/60 text-sage-800 transition-all hover:scale-105 hover:bg-white/80 dark:border-sage-800 dark:bg-sage-950/50 dark:text-sage-300 dark:hover:bg-sage-900/60"
           >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
           </button>
 
           <button

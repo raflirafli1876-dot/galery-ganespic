@@ -1,4 +1,4 @@
-import { Code2, Heart, Sparkles } from 'lucide-react';
+import { Code2, Heart, Sparkles } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -19,8 +19,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-sage-100/70">
-              Website galeri kenangan Angkatan XXV Ganespic. Mengabadikan setiap momen
-              kebersamaan dalam satu tempat.
+              Website galeri kenangan Angkatan XXV Ganespic. Mengabadikan setiap momen kebersamaan
+              dalam satu tempat.
             </p>
           </div>
 
@@ -31,9 +31,9 @@ export default function Footer() {
             </h4>
             <ul className="mt-4 space-y-2.5">
               {[
-                { label: 'Beranda', href: '#home' },
-                { label: 'Galeri', href: '#galeri' },
-                { label: 'Kegiatan', href: '#kegiatan' },
+                { label: "Beranda", href: "#home" },
+                { label: "Galeri", href: "#galeri" },
+                { label: "Kegiatan", href: "#kegiatan" },
               ].map((l) => (
                 <li key={l.href}>
                   <a
@@ -53,8 +53,8 @@ export default function Footer() {
               Motto Angkatan
             </h4>
             <p className="mt-4 text-sm leading-relaxed text-sage-100/70">
-              Satu angkatan, satu keluarga. Dengan semangat Ganespic, kami melangkah
-              bersama menuju masa depan.
+              Satu angkatan, satu keluarga. Dengan semangat Ganespic, kami melangkah bersama menuju
+              masa depan.
             </p>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-sage-400/20 px-4 py-1.5 text-sm font-semibold text-sage-200">
               <Sparkles size={14} className="text-sage-400" />

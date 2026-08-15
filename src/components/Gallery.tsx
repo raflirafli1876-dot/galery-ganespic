@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Users,
   GraduationCap,
@@ -11,8 +11,8 @@ import {
   ChevronRight,
   X,
   type LucideIcon,
-} from 'lucide-react';
-import type { ActivityWithItems, GalleryItem } from '@/lib/supabase';
+} from "lucide-react";
+import type { ActivityWithItems, GalleryItem } from "@/lib/supabase";
 
 const ICONS: Record<string, LucideIcon> = {
   Users,
@@ -31,13 +31,11 @@ type GalleryProps = {
 };
 
 export default function Gallery({ activities, loading }: GalleryProps) {
-  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [activeFilter, setActiveFilter] = useState<string>("all");
   const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
 
   const filtered =
-    activeFilter === 'all'
-      ? activities
-      : activities.filter((a) => a.id === activeFilter);
+    activeFilter === "all" ? activities : activities.filter((a) => a.id === activeFilter);
 
   return (
     <section id="galeri" className="relative py-24 lg:py-32">
@@ -58,11 +56,11 @@ export default function Gallery({ activities, loading }: GalleryProps) {
         {/* Filter pills */}
         <div className="mt-10 flex flex-wrap justify-center gap-2.5">
           <button
-            onClick={() => setActiveFilter('all')}
+            onClick={() => setActiveFilter("all")}
             className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
-              activeFilter === 'all'
-                ? 'bg-sage-950 text-sage-100 shadow-md shadow-sage-950/25 dark:bg-sage-400 dark:text-sage-950 dark:shadow-sage-400/30'
-                : 'border border-white/50 bg-white/60 text-sage-800 hover:bg-white/80 dark:border-sage-800 dark:bg-sage-950/50 dark:text-sage-300 dark:hover:bg-sage-900/60'
+              activeFilter === "all"
+                ? "bg-sage-950 text-sage-100 shadow-md shadow-sage-950/25 dark:bg-sage-400 dark:text-sage-950 dark:shadow-sage-400/30"
+                : "border border-white/50 bg-white/60 text-sage-800 hover:bg-white/80 dark:border-sage-800 dark:bg-sage-950/50 dark:text-sage-300 dark:hover:bg-sage-900/60"
             }`}
           >
             Semua
@@ -76,8 +74,8 @@ export default function Gallery({ activities, loading }: GalleryProps) {
                 onClick={() => setActiveFilter(a.id)}
                 className={`inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-semibold transition-all ${
                   active
-                    ? 'bg-sage-950 text-sage-100 shadow-md shadow-sage-950/25 dark:bg-sage-400 dark:text-sage-950 dark:shadow-sage-400/30'
-                    : 'border border-white/50 bg-white/60 text-sage-800 hover:bg-white/80 dark:border-sage-800 dark:bg-sage-950/50 dark:text-sage-300 dark:hover:bg-sage-900/60'
+                    ? "bg-sage-950 text-sage-100 shadow-md shadow-sage-950/25 dark:bg-sage-400 dark:text-sage-950 dark:shadow-sage-400/30"
+                    : "border border-white/50 bg-white/60 text-sage-800 hover:bg-white/80 dark:border-sage-800 dark:bg-sage-950/50 dark:text-sage-300 dark:hover:bg-sage-900/60"
                 }`}
               >
                 <Icon size={15} />
@@ -114,7 +112,7 @@ export default function Gallery({ activities, loading }: GalleryProps) {
                     <div>
                       <div className="flex items-center gap-3">
                         <span className="font-display text-sm font-bold text-sage-700 dark:text-sage-400">
-                          {String(idx + 1).padStart(2, '0')}
+                          {String(idx + 1).padStart(2, "0")}
                         </span>
                         <h3 className="font-display text-2xl font-extrabold tracking-tight text-sage-950 sm:text-3xl dark:text-sage-100">
                           {activity.name}
@@ -136,7 +134,7 @@ export default function Gallery({ activities, loading }: GalleryProps) {
                         onClick={() => setLightbox(item)}
                         className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-sage-200 dark:bg-sage-900/40"
                         style={{
-                          animation: 'var(--animate-fade-up)',
+                          animation: "var(--animate-fade-up)",
                           animationDelay: `${i * 0.08}s`,
                         }}
                       >
@@ -176,7 +174,7 @@ export default function Gallery({ activities, loading }: GalleryProps) {
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center bg-sage-950/90 p-4 backdrop-blur-sm"
           onClick={() => setLightbox(null)}
-          style={{ animation: 'var(--animate-fade-in)' }}
+          style={{ animation: "var(--animate-fade-in)" }}
         >
           <button
             className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
@@ -187,7 +185,7 @@ export default function Gallery({ activities, loading }: GalleryProps) {
           <div
             className="relative max-h-[90vh] max-w-4xl overflow-hidden rounded-2xl"
             onClick={(e) => e.stopPropagation()}
-            style={{ animation: 'var(--animate-scale-in)' }}
+            style={{ animation: "var(--animate-scale-in)" }}
           >
             <img
               src={lightbox.image_url}
@@ -196,9 +194,7 @@ export default function Gallery({ activities, loading }: GalleryProps) {
             />
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-sage-950 to-transparent p-6">
               <h4 className="font-display text-2xl font-bold text-white">{lightbox.title}</h4>
-              {lightbox.description && (
-                <p className="mt-2 text-white/80">{lightbox.description}</p>
-              )}
+              {lightbox.description && <p className="mt-2 text-white/80">{lightbox.description}</p>}
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
-import { ArrowDown, Sparkles } from 'lucide-react';
-import GanespicLogo from '@/components/GanespicLogo';
+import { ArrowDown, Sparkles } from "lucide-react";
+import GanespicLogo from "@/components/GanespicLogo";
 
 export default function Hero() {
   return (
@@ -18,14 +18,14 @@ export default function Hero() {
         {/* Logo with motto arc */}
         <div
           className="mb-2 flex justify-center text-sage-950 opacity-0 dark:text-sage-100"
-          style={{ animation: 'var(--animate-scale-in)', animationDelay: '0.05s' }}
+          style={{ animation: "var(--animate-scale-in)", animationDelay: "0.05s" }}
         >
           <GanespicLogo size={180} />
         </div>
 
         <div
           className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/60 px-4 py-1.5 text-sm font-medium text-sage-800 opacity-0 backdrop-blur dark:border-sage-800 dark:bg-sage-950/50 dark:text-sage-300"
-          style={{ animation: 'var(--animate-fade-up)', animationDelay: '0.2s' }}
+          style={{ animation: "var(--animate-fade-up)", animationDelay: "0.2s" }}
         >
           <Sparkles size={15} className="text-sage-600 dark:text-sage-400" />
           Angkatan XXV Ganespic
@@ -33,7 +33,7 @@ export default function Hero() {
 
         <h1
           className="font-display text-5xl font-extrabold leading-[1.1] tracking-tight text-sage-950 text-balance opacity-0 sm:text-6xl lg:text-7xl dark:text-sage-100"
-          style={{ animation: 'var(--animate-fade-up)', animationDelay: '0.3s' }}
+          style={{ animation: "var(--animate-fade-up)", animationDelay: "0.3s" }}
         >
           Galeri Kenangan
           <br />
@@ -44,15 +44,15 @@ export default function Hero() {
 
         <p
           className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-sage-950/75 opacity-0 dark:text-sage-200/70"
-          style={{ animation: 'var(--animate-fade-up)', animationDelay: '0.4s' }}
+          style={{ animation: "var(--animate-fade-up)", animationDelay: "0.4s" }}
         >
-          Setiap momen, setiap kegiatan, setiap cerita — terabadikan dalam satu galeri.
-          Jelajahi perjalanan angkatan kita melalui beragam kegiatan yang penuh kebersamaan.
+          Setiap momen, setiap kegiatan, setiap cerita — terabadikan dalam satu galeri. Jelajahi
+          perjalanan angkatan kita melalui beragam kegiatan yang penuh kebersamaan.
         </p>
 
         <div
           className="mt-10 flex flex-col items-center justify-center gap-4 opacity-0 sm:flex-row"
-          style={{ animation: 'var(--animate-fade-up)', animationDelay: '0.5s' }}
+          style={{ animation: "var(--animate-fade-up)", animationDelay: "0.5s" }}
         >
           <a
             href="#galeri"
@@ -72,12 +72,12 @@ export default function Hero() {
         {/* Stats */}
         <div
           className="mx-auto mt-16 grid max-w-2xl grid-cols-3 gap-4 opacity-0"
-          style={{ animation: 'var(--animate-fade-up)', animationDelay: '0.6s' }}
+          style={{ animation: "var(--animate-fade-up)", animationDelay: "0.6s" }}
         >
           {[
-            { value: '7', label: 'Kategori Kegiatan' },
-            { value: '21+', label: 'Momen Terabadikan' },
-            { value: '1', label: 'Angkatan, Satu Keluarga' },
+            { value: "7", label: "Kategori Kegiatan" },
+            { value: "21+", label: "Momen Terabadikan" },
+            { value: "1", label: "Angkatan, Satu Keluarga" },
           ].map((stat) => (
             <div
               key={stat.label}

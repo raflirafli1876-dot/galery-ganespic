@@ -9,10 +9,7 @@ export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>): { next?: string } =>
     typeof s["next"] === "string" ? { next: s["next"] } : {},
   head: () => ({
-    meta: [
-      { title: "Masuk Admin — Ganespic XXV" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Masuk Admin — Ganespic XXV" }, { name: "robots", content: "noindex" }],
   }),
   component: AuthPage,
 });
@@ -50,9 +47,7 @@ function AuthPage() {
     }
     setLoading(true);
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: cleanUsername.includes("@")
-        ? cleanUsername
-        : `${cleanUsername}${ADMIN_EMAIL_DOMAIN}`,
+      email: cleanUsername.includes("@") ? cleanUsername : `${cleanUsername}${ADMIN_EMAIL_DOMAIN}`,
       password,
     });
     setLoading(false);
