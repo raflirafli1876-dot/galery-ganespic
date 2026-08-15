@@ -22,7 +22,9 @@ const activityQueryOptions = (slug: string) =>
 
 export const Route = createFileRoute("/kegiatan/$slug")({
   loader: async ({ context, params }) => {
-    const activity = await context.queryClient.ensureQueryData(activityQueryOptions(params.slug));
+    const activity = await context.queryClient.ensureQueryData(
+      activityQueryOptions(params.slug),
+    );
     if (!activity) throw notFound();
     await context.queryClient.ensureQueryData(activitiesQueryOptions);
     return { activity };
@@ -135,9 +137,7 @@ function ActivityDetailPage() {
           </h1>
 
           <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-            {activity.activity_date
-              ? formatActivityDate(activity.activity_date)
-              : "Tanggal menyusul"}
+            {activity.activity_date ? formatActivityDate(activity.activity_date) : "Tanggal menyusul"}
             {activity.photos.length > 0 ? ` · ${activity.photos.length} Foto` : ""}
           </p>
         </Reveal>
@@ -179,7 +179,9 @@ function ActivityDetailPage() {
                     key={photo.id}
                     onClick={() => setLightboxIndex(i)}
                     className={`group relative overflow-hidden rounded-xl shadow-elegant ${
-                      i === 0 && activity.photos.length > 2 ? "col-span-2 row-span-2" : ""
+                      i === 0 && activity.photos.length > 2
+                        ? "col-span-2 row-span-2"
+                        : ""
                     }`}
                     aria-label={photo.caption || `Foto ${i + 1}`}
                   >

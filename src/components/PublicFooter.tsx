@@ -8,8 +8,9 @@ export function PublicFooter() {
               Ganespic <span className="text-accent-strong">XXV</span>
             </p>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Arsip kenangan Angkatan 25 — dari langkah pertama di bangku MTs hingga hari kelulusan
-              di MA. Setiap foto adalah halaman kecil dari kisah enam tahun kita bersama.
+              Arsip kenangan Angkatan 25 — dari langkah pertama di bangku MTs
+              hingga hari kelulusan di MA. Setiap foto adalah halaman kecil dari
+              kisah enam tahun kita bersama.
             </p>
           </div>
           <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">

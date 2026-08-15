@@ -53,18 +53,8 @@ export function slugify(text: string): string {
 export function formatActivityDate(isoDate: string | null): string {
   if (!isoDate) return "";
   const months = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember",
   ];
   const [year, month] = isoDate.split("-").map(Number);
   if (!year || !month) return isoDate;

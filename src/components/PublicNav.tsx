@@ -57,7 +57,9 @@ export function PublicNav() {
         </nav>
 
         <button
-          onClick={() => (session ? navigate({ to: "/admin" }) : navigate({ to: "/auth" }))}
+          onClick={() =>
+            session ? navigate({ to: "/admin" }) : navigate({ to: "/auth" })
+          }
           className="rounded-full border border-primary/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
         >
           {session ? "Dasbor Admin" : "Masuk Admin"}

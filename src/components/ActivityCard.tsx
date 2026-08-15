@@ -49,7 +49,9 @@ export function ActivityCard({ activity, variant }: ActivityCardProps) {
           {excerpt}
         </p>
         <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-accent-foreground/0 transition-colors duration-300 group-hover:text-accent">
-          <span className="text-primary-foreground/90 group-hover:text-accent">Buka Arsip →</span>
+          <span className="text-primary-foreground/90 group-hover:text-accent">
+            Buka Arsip →
+          </span>
         </span>
       </div>
     </Link>
