@@ -1,20 +1,19 @@
-import { defineConfig } from "vite";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
-import tsConfigPaths from "vite-tsconfig-paths";
+import { defineConfig } from 'vite'
+import viteReact from '@vitejs/plugin-react'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 
 export default defineConfig({
-  // Tailwind v4 source() syntax tidak kompatibel dengan lightningcss minifier bawaan Vite 8.
-  // Pakai esbuild untuk minify CSS sebagai gantinya.
+  plugins: [
+    tanstackStart(),
+    viteReact(),
+  ],
   css: {
-    transformer: "postcss",
+    minify: false,  // <-- MATIKAN MINIFY BIAR GAK ERROR
+  },
+  resolve: {
+    tsconfigPaths: true,
   },
   build: {
-    cssMinify: "esbuild",
+    cssMinify: false, // <-- TAMBAHIN INI JUGA BUAT PASTI
   },
-  plugins: [
-    tanstackStart(), // harus sebelum react()
-    viteReact(),
-    tsConfigPaths(),
-  ],
-});
+})
