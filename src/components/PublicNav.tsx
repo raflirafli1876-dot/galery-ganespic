@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import type { Session } from "@supabase/supabase-js";
 
 import { supabase } from "@/integrations/supabase/client";
-import logoAsset from "@/assets/logo-xxv.png.asset.json";
+import logoAsset from "@/assets/Logo_xxvganespic.png";
 
 const NAV_LINKS = [
   { to: "/", hash: "mts", label: "Era MTs" },
@@ -34,7 +34,7 @@ export function PublicNav() {
           className="flex items-center gap-3 font-serif text-2xl leading-none tracking-tight text-foreground"
         >
           <img
-            src={logoAsset.url}
+            src={logoAsset}
             alt="Logo Angkatan XXV Ganespic"
             className="h-10 w-10 rounded-full object-contain"
           />

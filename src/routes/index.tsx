@@ -11,7 +11,7 @@ import { ActivityCard } from "@/components/ActivityCard";
 import { PublicFooter } from "@/components/PublicFooter";
 import { PublicNav } from "@/components/PublicNav";
 import { Reveal } from "@/components/Reveal";
-import logoAsset from "@/assets/logo-xxv.png.asset.json";
+import logoUrl from "@/assets/Logo_xxvganespic.png";
 
 const activitiesQueryOptions = queryOptions({
   queryKey: ["public-activities"],
@@ -142,7 +142,7 @@ function HomePage() {
       <section className="mx-auto max-w-6xl px-6 pb-24 pt-20 text-center md:pt-28">
         <Reveal>
           <img
-            src={logoAsset.url}
+            src={logoUrl}
             alt="Logo Angkatan XXV Ganespic"
             className="mx-auto mb-8 h-28 w-28 rounded-full object-contain shadow-elegant md:h-32 md:w-32"
           />
