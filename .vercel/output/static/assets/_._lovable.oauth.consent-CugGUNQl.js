@@ -1,0 +1,1 @@
+import{j as e}from"./index-BRGE-er_.js";const n=({error:t})=>e.jsx("main",{className:"flex min-h-screen items-center justify-center bg-background px-6",children:e.jsxs("p",{className:"max-w-md text-center text-sm text-muted-foreground",children:["Permintaan otorisasi tidak dapat dimuat: ",String((t==null?void 0:t.message)??t)]})});export{n as errorComponent};
