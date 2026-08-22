@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import type { Session } from "@supabase/supabase-js";
 import { Cloud, ImagePlus, PenLine, Plus, type LucideIcon } from "lucide-react";
 
 import { listPublicActivities } from "@/lib/gallery.functions";
@@ -42,15 +41,29 @@ export const Route = createFileRoute("/")({
 });
 
 function useSession() {
-  const [session, setSession] = useState<Session | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const checkAuth = async () => {
+      const localSession = typeof window !== "undefined" ? sessionStorage.getItem("ganespic_admin_session") : null;
+      if (localSession) {
+        setIsLoggedIn(true);
+        return;
+      }
+      const { data } = await supabase.auth.getSession();
+      setIsLoggedIn(!!data.session);
+    };
+
+    checkAuth();
+
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
+    } = supabase.auth.onAuthStateChange((_event, next) => {
+      const localSession = typeof window !== "undefined" ? sessionStorage.getItem("ganespic_admin_session") : null;
+      setIsLoggedIn(!!localSession || !!next);
+    });
     return () => subscription.unsubscribe();
   }, []);
-  return session;
+  return isLoggedIn;
 }
 
 const PORTAL_TILES: { icon: LucideIcon; title: string; description: string }[] = [
@@ -123,14 +136,14 @@ function EraSection({
 
 function HomePage() {
   const { data: activities } = useSuspenseQuery(activitiesQueryOptions);
-  const session = useSession();
+  const isLoggedIn = useSession();
   const navigate = useNavigate();
 
   const mts = activities.filter((a) => a.era === "mts");
   const ma = activities.filter((a) => a.era === "ma");
 
   const portalTarget = () => {
-    if (session) navigate({ to: "/admin" });
+    if (isLoggedIn) navigate({ to: "/admin" });
     else navigate({ to: "/auth" });
   };
 
@@ -243,7 +256,7 @@ function HomePage() {
                 Khusus Admin
               </p>
               <h2 className="mt-4 font-serif text-4xl tracking-tight md:text-5xl">
-                Dasbor Kurator
+                Dashboard Kurator
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-primary-foreground/70 md:text-base">
                 Area khusus admin Ganespic XXV untuk menjaga arsip tetap hidup:

@@ -34,7 +34,7 @@ function AuthPage() {
 
   useEffect(() => {
     // Check if user is already logged in
-    const session = typeof window !== "undefined" ? localStorage.getItem(SESSION_KEY) : null;
+    const session = typeof window !== "undefined" ? sessionStorage.getItem(SESSION_KEY) : null;
     if (session) {
       if (safeNext) window.location.replace(safeNext);
       else navigate({ to: "/admin", replace: true });
@@ -59,7 +59,7 @@ function AuthPage() {
     if (input === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       // Save session to localStorage
       if (typeof window !== "undefined") {
-        localStorage.setItem(SESSION_KEY, JSON.stringify({
+        sessionStorage.setItem(SESSION_KEY, JSON.stringify({
           username: input,
           timestamp: new Date().toISOString(),
         }));
@@ -88,7 +88,7 @@ function AuthPage() {
               Ganespic <span className="text-accent-strong">XXV</span>
             </Link>
             <h1 className="mt-8 font-serif text-3xl tracking-tight text-foreground">
-              Dasbor Kurator
+              Dashboard Kurator
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
               Area khusus admin arsip Angkatan XXV.
@@ -155,7 +155,7 @@ function AuthPage() {
                 disabled={loading}
                 className="mt-6 w-full rounded-full bg-primary py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
               >
-                {loading ? "Memproses…" : "Masuk ke Dasbor"}
+                {loading ? "Memproses…" : "Masuk ke Dashboard"}
               </button>
             </form>
           )}

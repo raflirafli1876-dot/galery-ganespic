@@ -12,7 +12,7 @@ import { GRADE_OPTIONS, formatActivityDate, gradeLabel, slugify } from "@/lib/ga
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Dasbor Kurator — Ganespic XXV" },
+      { title: "Dashboard Kurator — Ganespic XXV" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -83,6 +83,9 @@ function AdminDashboard() {
   async function handleSignOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("ganespic_admin_session");
+    }
     await supabase.auth.signOut();
     navigate({ to: "/auth", replace: true });
   }
@@ -138,7 +141,7 @@ function AdminDashboard() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <p className="text-sm text-muted-foreground">Memuat dasbor…</p>
+        <p className="text-sm text-muted-foreground">Memuat dashboard…</p>
       </div>
     );
   }
@@ -179,7 +182,7 @@ function AdminDashboard() {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
               Ganespic XXV
             </p>
-            <h1 className="mt-2 font-serif text-4xl tracking-tight">Dasbor Kurator</h1>
+            <h1 className="mt-2 font-serif text-4xl tracking-tight">Dashboard Kurator</h1>
             <p className="mt-1 text-sm text-primary-foreground/65">{user?.email}</p>
           </div>
           <div className="flex items-center gap-3">

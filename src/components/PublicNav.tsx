@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import type { Session } from "@supabase/supabase-js";
 
 import { supabase } from "@/integrations/supabase/client";
 import logoAsset from "@/assets/Logo_xxvganespic.png";
@@ -12,19 +11,31 @@ const NAV_LINKS = [
 ] as const;
 
 export function PublicNav() {
-  const [session, setSession] = useState<Session | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const checkAuth = async () => {
+      const localSession = typeof window !== "undefined" ? sessionStorage.getItem("ganespic_admin_session") : null;
+      if (localSession) {
+        setIsLoggedIn(true);
+        return;
+      }
+      const { data } = await supabase.auth.getSession();
+      setIsLoggedIn(!!data.session);
+    };
+
+    checkAuth();
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
+      const localSession = typeof window !== "undefined" ? sessionStorage.getItem("ganespic_admin_session") : null;
+      setIsLoggedIn(!!localSession || !!nextSession);
     });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
@@ -58,11 +69,11 @@ export function PublicNav() {
 
         <button
           onClick={() =>
-            session ? navigate({ to: "/admin" }) : navigate({ to: "/auth" })
+            isLoggedIn ? navigate({ to: "/admin" }) : navigate({ to: "/auth" })
           }
           className="rounded-full border border-primary/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
         >
-          {session ? "Dasbor Admin" : "Masuk Admin"}
+          {isLoggedIn ? "Dashboard Admin" : "Masuk Admin"}
         </button>
       </div>
       {pathname !== "/" && (

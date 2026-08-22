@@ -294,7 +294,7 @@ function ManageActivityPage() {
             to="/admin"
             className="mt-6 inline-block rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground"
           >
-            Kembali ke Dasbor
+            Kembali ke Dashboard
           </Link>
         </div>
       </div>
@@ -311,7 +311,7 @@ function ManageActivityPage() {
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
-              Dasbor
+              Dashboard
             </Link>
             <h1 className="mt-3 font-serif text-3xl tracking-tight text-foreground md:text-4xl">
               Kelola: <span className="italic text-accent-strong">{activity.title}</span>
