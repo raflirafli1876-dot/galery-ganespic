@@ -43,23 +43,48 @@ function AuthPage() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setError(null);
-    const cleanUsername = username.trim().toLowerCase();
-    if (!cleanUsername || !password) {
+    
+    const input = username.trim().toLowerCase();
+    if (!input || !password) {
       setError("Username dan kata sandi wajib diisi.");
       return;
     }
+    
     setLoading(true);
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: cleanUsername.includes("@")
-        ? cleanUsername
-        : `${cleanUsername}${ADMIN_EMAIL_DOMAIN}`,
+    
+    // Determine if input is email or username
+    const email = input.includes("@") ? input : `${input}${ADMIN_EMAIL_DOMAIN}`;
+    
+    // Login to Supabase auth
+    const { error: signInError, data } = await supabase.auth.signInWithPassword({
+      email,
       password,
     });
-    setLoading(false);
+    
     if (signInError) {
+      setLoading(false);
       setError("Username atau kata sandi salah. Periksa kembali lalu coba lagi.");
       return;
     }
+    
+    // Check if user has admin role in user_roles table
+    if (data.user?.id) {
+      const { data: roleData, error: roleError } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .eq('role', 'admin')
+        .single();
+      
+      if (roleError || !roleData) {
+        setLoading(false);
+        setError("User ini bukan admin. Akses ditolak.");
+        await supabase.auth.signOut();
+        return;
+      }
+    }
+    
+    setLoading(false);
     toast.success("Selamat datang kembali, Admin.");
     if (safeNext) window.location.assign(safeNext);
     else navigate({ to: "/admin" });
