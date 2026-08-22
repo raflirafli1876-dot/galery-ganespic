@@ -19,6 +19,7 @@ export const Route = createFileRoute("/auth")({
 // Hardcoded credentials
 const ADMIN_USERNAME = "adminganespic";
 const ADMIN_PASSWORD = "ganespicxxvadmin";
+const SESSION_KEY = "ganespic_admin_session";
 
 function AuthPage() {
   const navigate = useNavigate();
@@ -29,7 +30,18 @@ function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [checking, setChecking] = useState(false);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const session = typeof window !== "undefined" ? localStorage.getItem(SESSION_KEY) : null;
+    if (session) {
+      if (safeNext) window.location.replace(safeNext);
+      else navigate({ to: "/admin", replace: true });
+    } else {
+      setChecking(false);
+    }
+  }, [navigate, safeNext]);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -45,6 +57,14 @@ function AuthPage() {
     
     // Simple credential check - hardcoded in code
     if (input === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+      // Save session to localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem(SESSION_KEY, JSON.stringify({
+          username: input,
+          timestamp: new Date().toISOString(),
+        }));
+      }
+      
       // Simulate auth delay
       await new Promise(resolve => setTimeout(resolve, 500));
       
