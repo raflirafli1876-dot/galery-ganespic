@@ -3,8 +3,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
 
-import { supabase } from "@/integrations/supabase/client";
-
 export const Route = createFileRoute("/auth")({
   ssr: false,
   validateSearch: (s: Record<string, unknown>): { next?: string } =>
@@ -18,7 +16,9 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-const ADMIN_EMAIL_DOMAIN = "@ganespic.local";
+// Hardcoded credentials
+const ADMIN_USERNAME = "adminganespic";
+const ADMIN_PASSWORD = "ganespicxxvadmin";
 
 function AuthPage() {
   const navigate = useNavigate();
@@ -29,18 +29,7 @@ function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [checking, setChecking] = useState(true);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) {
-        if (safeNext) window.location.replace(safeNext);
-        else navigate({ to: "/admin", replace: true });
-      } else {
-        setChecking(false);
-      }
-    });
-  }, [navigate, safeNext]);
+  const [checking, setChecking] = useState(false);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -54,42 +43,20 @@ function AuthPage() {
     
     setLoading(true);
     
-    // Determine if input is email or username
-    const email = input.includes("@") ? input : `${input}${ADMIN_EMAIL_DOMAIN}`;
-    
-    // Login to Supabase auth
-    const { error: signInError, data } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    
-    if (signInError) {
+    // Simple credential check - hardcoded in code
+    if (input === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+      // Simulate auth delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      setLoading(false);
+      toast.success("Selamat datang kembali, Admin.");
+      
+      if (safeNext) window.location.assign(safeNext);
+      else navigate({ to: "/admin" });
+    } else {
       setLoading(false);
       setError("Username atau kata sandi salah. Periksa kembali lalu coba lagi.");
-      return;
     }
-    
-    // Check if user has admin role in user_roles table
-    if (data.user?.id) {
-      const { data: roleData, error: roleError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', data.user.id)
-        .eq('role', 'admin')
-        .single();
-      
-      if (roleError || !roleData) {
-        setLoading(false);
-        setError("User ini bukan admin. Akses ditolak.");
-        await supabase.auth.signOut();
-        return;
-      }
-    }
-    
-    setLoading(false);
-    toast.success("Selamat datang kembali, Admin.");
-    if (safeNext) window.location.assign(safeNext);
-    else navigate({ to: "/admin" });
   }
 
   return (
