@@ -105,10 +105,20 @@ function ActivityDetailPage() {
 
   if (!activity) return null;
 
+  // Sort all activities by era and grade_level (MTs: 7-9, MA: 10-12)
+  const sortedActivities = [...all].sort((a, b) => {
+    // First sort by era (mts before ma)
+    if (a.era !== b.era) {
+      return a.era === 'mts' ? -1 : 1;
+    }
+    // Then sort by grade_level within the same era
+    return a.grade_level - b.grade_level;
+  });
+
   const cover = activity.cover_image_url ?? activity.photos[0]?.image_url ?? null;
-  const currentIndex = all.findIndex((a) => a.slug === activity.slug);
-  const prev = currentIndex > 0 ? all[currentIndex - 1] : null;
-  const next = currentIndex >= 0 && currentIndex < all.length - 1 ? all[currentIndex + 1] : null;
+  const currentIndex = sortedActivities.findIndex((a) => a.slug === activity.slug);
+  const prev = currentIndex > 0 ? sortedActivities[currentIndex - 1] : null;
+  const next = currentIndex >= 0 && currentIndex < sortedActivities.length - 1 ? sortedActivities[currentIndex + 1] : null;
 
   return (
     <div className="min-h-screen bg-background">

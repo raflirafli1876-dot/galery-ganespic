@@ -139,8 +139,12 @@ function HomePage() {
   const isLoggedIn = useSession();
   const navigate = useNavigate();
 
-  const mts = activities.filter((a) => a.era === "mts");
-  const ma = activities.filter((a) => a.era === "ma");
+  const mts = activities
+    .filter((a) => a.era === "mts")
+    .sort((a, b) => a.grade_level - b.grade_level);
+  const ma = activities
+    .filter((a) => a.era === "ma")
+    .sort((a, b) => a.grade_level - b.grade_level);
 
   const portalTarget = () => {
     if (isLoggedIn) navigate({ to: "/admin" });
