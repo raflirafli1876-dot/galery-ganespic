@@ -48,17 +48,17 @@ export function PublicNav() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4">
         <Link
           to="/"
-          className="flex items-center gap-3 font-serif text-2xl leading-none tracking-tight text-foreground"
+          className="flex min-w-0 shrink items-center gap-2 font-serif text-lg leading-none tracking-tight text-foreground sm:gap-3 sm:text-2xl"
         >
           <img
             src={logoAsset}
             alt="Logo Angkatan XXV Ganespic"
-            className="h-10 w-10 rounded-full object-contain"
+            className="h-8 w-8 shrink-0 rounded-full object-contain sm:h-10 sm:w-10"
           />
-          <span>
+          <span className="truncate">
             Ganespic <span className="text-accent-strong">XXV</span>
           </span>
         </Link>
@@ -76,13 +76,21 @@ export function PublicNav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Dialog>
             <DialogTrigger asChild>
               <button
-                className="rounded-full border border-foreground/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-foreground hover:text-background"
+                className="hidden rounded-full border border-foreground/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-foreground hover:text-background sm:inline-flex"
               >
                 Developer
+              </button>
+            </DialogTrigger>
+            <DialogTrigger asChild>
+              <button
+                className="inline-flex items-center justify-center rounded-full border border-foreground/30 p-2 text-foreground transition-colors hover:bg-foreground hover:text-background sm:hidden"
+                aria-label="Developer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10 20-5.5-5.5L10 9"/><path d="m14 4 5.5 5.5L14 15"/></svg>
               </button>
             </DialogTrigger>
             <DialogContent>
@@ -136,9 +144,9 @@ export function PublicNav() {
             onClick={() =>
               isLoggedIn ? navigate({ to: "/admin" }) : navigate({ to: "/auth" })
             }
-            className="rounded-full border border-primary/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+            className="whitespace-nowrap rounded-full border border-primary/20 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-primary transition-colors hover:bg-primary hover:text-primary-foreground sm:px-5 sm:py-2 sm:text-xs sm:tracking-[0.18em]"
           >
-            {isLoggedIn ? "Dashboard Admin" : "Masuk Admin"}
+            {isLoggedIn ? "Dashboard" : "Masuk Admin"}
           </button>
         </div>
       </div>
