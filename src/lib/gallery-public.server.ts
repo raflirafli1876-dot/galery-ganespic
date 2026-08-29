@@ -40,7 +40,10 @@ export async function fetchPublicActivities(): Promise<ActivityWithPhotos[]> {
     .from("activities")
     .select(ACTIVITY_SELECT)
     .order("sort_order", { ascending: true });
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.error("Error fetching public activities:", error);
+    throw new Error(error.message);
+  }
   return mapRows((data ?? []) as Record<string, unknown>[]);
 }
 

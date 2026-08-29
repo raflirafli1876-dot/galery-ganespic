@@ -104,6 +104,16 @@ function AdminDashboard() {
       activities.map((a) => a.slug),
     );
     const maxSort = activities.reduce((max, a) => Math.max(max, a.sort_order), 0);
+    // Handle date: if month is YYYY-MM, convert to YYYY-MM-01 for database
+    let activityDate = null;
+    if (month) {
+      if (month.includes('-') && month.split('-').length === 2) {
+        activityDate = `${month}-01`;
+      } else {
+        activityDate = month;
+      }
+    }
+    
     const { data, error } = await supabase
       .from("activities")
       .insert({
@@ -111,7 +121,7 @@ function AdminDashboard() {
         slug,
         era: grade.era,
         grade_level: grade.grade,
-        activity_date: month ? `${month}-01` : null,
+        activity_date: activityDate,
         description: description.trim(),
         sort_order: maxSort + 1,
       })
@@ -276,7 +286,7 @@ function AdminDashboard() {
 
                 <label className="block">
                   <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    Bulan & Tahun Kegiatan
+                    Tanggal Kegiatan (Opsional)
                   </span>
                   <MonthYearPicker value={month} onChange={setMonth} />
                 </label>

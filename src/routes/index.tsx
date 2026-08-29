@@ -17,7 +17,7 @@ const activitiesQueryOptions = queryOptions({
   queryFn: () => listPublicActivities(),
 });
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/")(({
   loader: ({ context }) => context.queryClient.ensureQueryData(activitiesQueryOptions),
   head: () => ({
     meta: [
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
     ],
   }),
   component: HomePage,
-});
+}));
 
 function useSession() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -118,15 +118,10 @@ function EraSection({
         </div>
       </Reveal>
 
-      <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-12">
+      <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {activities.map((activity, i) => (
-          <Reveal key={activity.id} delay={i * 120} className={
-            i % 3 === 0 ? "md:col-span-8" : i % 3 === 1 ? "md:col-span-4" : "md:col-span-12"
-          }>
-            <ActivityCard
-              activity={activity}
-              variant={i % 3 === 0 ? "wide" : i % 3 === 1 ? "tall" : "banner"}
-            />
+          <Reveal key={activity.id} delay={i * 120}>
+            <ActivityCard activity={activity} />
           </Reveal>
         ))}
       </div>
@@ -177,7 +172,7 @@ function HomePage() {
           <div className="mt-8 flex items-center justify-center gap-4">
             <span className="hidden h-px w-10 bg-accent-strong/40 sm:block" />
             <p className="font-serif text-xl italic text-accent-strong md:text-2xl">
-              “Melangkah ke Depan, Menuju Kemenangan”
+              "Melangkah ke Depan, Menuju Kemenangan"
             </p>
             <span className="hidden h-px w-10 bg-accent-strong/40 sm:block" />
           </div>

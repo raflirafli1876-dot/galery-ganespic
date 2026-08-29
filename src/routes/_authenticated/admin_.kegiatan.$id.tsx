@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, Link2, Star, Trash2, Upload } from "lucide-react";
+import { ArrowLeft, Link2, Star, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -29,7 +29,6 @@ function ManageActivityPage() {
   const { user, isAdmin, isLoading: adminLoading } = useAdmin();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
   const [gradeKey, setGradeKey] = useState("7-mts");
@@ -40,9 +39,7 @@ function ManageActivityPage() {
   const [linkUrl, setLinkUrl] = useState("");
   const [linkCaption, setLinkCaption] = useState("");
   const [addingLink, setAddingLink] = useState(false);
-  const [uploadCaption, setUploadCaption] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [linkError, setLinkError] = useState<string | null>(null);
 
   const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
   const [confirmDeleteActivity, setConfirmDeleteActivity] = useState(false);
@@ -82,7 +79,17 @@ function ManageActivityPage() {
     if (activity) {
       setTitle(activity.title);
       setGradeKey(`${activity.grade_level}-${activity.era}`);
-      setMonth(activity.activity_date ? activity.activity_date.slice(0, 7) : "");
+      // Convert YYYY-MM-01 back to YYYY-MM for the picker
+      if (activity.activity_date) {
+        const parts = activity.activity_date.split('-');
+        if (parts.length === 3 && parts[2] === '01') {
+          setMonth(`${parts[0]}-${parts[1]}`);
+        } else {
+          setMonth(activity.activity_date);
+        }
+      } else {
+        setMonth("");
+      }
       setDescription(activity.description);
     }
   }, [activity?.id]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -101,13 +108,23 @@ function ManageActivityPage() {
       return;
     }
     setSaving(true);
+    // Handle date: if month is YYYY-MM, convert to YYYY-MM-01 for database
+    let activityDate = null;
+    if (month) {
+      if (month.includes('-') && month.split('-').length === 2) {
+        activityDate = `${month}-01`;
+      } else {
+        activityDate = month;
+      }
+    }
+    
     const { error } = await supabase
       .from("activities")
       .update({
         title: title.trim(),
         era: grade.era,
         grade_level: grade.grade,
-        activity_date: month ? `${month}-01` : null,
+        activity_date: activityDate,
         description: description.trim(),
       })
       .eq("id", id);
@@ -126,10 +143,10 @@ function ManageActivityPage() {
 
   async function handleAddLink(event: FormEvent) {
     event.preventDefault();
-    setUploadError(null);
+    setLinkError(null);
     const url = linkUrl.trim();
     if (!/^https?:\/\/.+\..+/.test(url)) {
-      setUploadError("Tautan foto tidak valid. Gunakan URL lengkap diawali https://");
+      setLinkError("Tautan foto tidak valid. Gunakan URL lengkap diawali https://");
       return;
     }
     setAddingLink(true);
@@ -141,71 +158,13 @@ function ManageActivityPage() {
     });
     setAddingLink(false);
     if (error) {
-      setUploadError(`Gagal menambah foto: ${error.message}`);
+      setLinkError(`Gagal menambah foto: ${error.message}`);
       return;
     }
     toast.success("Foto dari tautan ditambahkan.");
     setLinkUrl("");
     setLinkCaption("");
     await invalidate();
-  }
-
-  async function handleUpload() {
-    setUploadError(null);
-    const files = Array.from(fileInputRef.current?.files ?? []);
-    if (files.length === 0) {
-      setUploadError("Pilih berkas foto terlebih dahulu (bisa pilih banyak sekaligus).");
-      return;
-    }
-    setUploading(true);
-    let start = nextSortOrder();
-    let success = 0;
-    const failed: string[] = [];
-    try {
-      for (const file of files) {
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, "-");
-        const path = `${id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
-        const { error: uploadErr } = await supabase.storage
-          .from("gallery")
-          .upload(path, file, { cacheControl: "3600", upsert: false });
-        if (uploadErr) {
-          failed.push(file.name);
-          continue;
-        }
-        // Bucket bersifat privat: buat tautan bertanda tangan berumur panjang (10 tahun)
-        const { data: signed, error: signErr } = await supabase.storage
-          .from("gallery")
-          .createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
-        if (signErr || !signed?.signedUrl) {
-          failed.push(file.name);
-          continue;
-        }
-        const { error: insertErr } = await supabase.from("activity_photos").insert({
-          activity_id: id,
-          image_url: signed.signedUrl,
-          caption: files.length === 1 ? uploadCaption.trim() : "",
-          sort_order: start++,
-        });
-        if (insertErr) {
-          failed.push(file.name);
-          continue;
-        }
-        success += 1;
-      }
-      if (success > 0) toast.success(`${success} foto berhasil diunggah.`);
-      if (failed.length > 0) {
-        setUploadError(`Gagal mengunggah ${failed.length} berkas: ${failed.join(", ")}`);
-      }
-      setUploadCaption("");
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      await invalidate();
-    } catch {
-      setUploadError(
-        "Unggahan gagal. Coba lagi, atau gunakan opsi tautan foto cloud sebagai gantinya.",
-      );
-    } finally {
-      setUploading(false);
-    }
   }
 
   async function handleSetCover(photo: ActivityPhoto) {
@@ -369,7 +328,7 @@ function ManageActivityPage() {
             </label>
             <label className="block">
               <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Bulan & Tahun Kegiatan
+                Tanggal Kegiatan (Opsional)
               </span>
               <MonthYearPicker value={month} onChange={setMonth} />
             </label>
@@ -395,7 +354,7 @@ function ManageActivityPage() {
         </form>
 
         {/* Add photos */}
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div className="mt-10">
           <form
             onSubmit={handleAddLink}
             className="rounded-2xl border border-border bg-card p-6 shadow-elegant"
@@ -428,49 +387,19 @@ function ManageActivityPage() {
             </button>
           </form>
 
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-elegant">
-            <h3 className="inline-flex items-center gap-2 font-serif text-xl text-foreground">
-              <Upload className="h-5 w-5 text-accent-strong" />
-              Unggah Berkas Foto
-            </h3>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Pilih banyak foto sekaligus langsung dari perangkatmu.
+          {linkError && (
+            <p className="mt-4 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {linkError}
             </p>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="mt-4 w-full text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.16em] file:text-secondary-foreground"
-            />
-            <input
-              value={uploadCaption}
-              onChange={(e) => setUploadCaption(e.target.value)}
-              placeholder="Keterangan (hanya jika unggah 1 foto)"
-              className="mt-3 w-full rounded-lg border border-input bg-background px-4 py-3 text-sm outline-none focus:border-accent-strong"
-            />
-            <button
-              onClick={handleUpload}
-              disabled={uploading}
-              className="mt-4 w-full rounded-full bg-primary py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
-            >
-              {uploading ? "Mengunggah…" : "Unggah Foto"}
-            </button>
-          </div>
+          )}
         </div>
-
-        {uploadError && (
-          <p className="mt-4 rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
-            {uploadError}
-          </p>
-        )}
 
         {/* Photo manager */}
         <div className="mt-10">
           <h2 className="font-serif text-2xl text-foreground">Foto Kegiatan</h2>
           {photos.length === 0 ? (
             <p className="mt-4 text-sm text-muted-foreground">
-              Belum ada foto. Tambahkan lewat tautan cloud atau unggahan di atas.
+              Belum ada foto. Tambahkan lewat tautan cloud di atas.
             </p>
           ) : (
             <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

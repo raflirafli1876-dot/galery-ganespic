@@ -5,7 +5,7 @@ export interface Activity {
   description: string;
   era: "mts" | "ma";
   grade_level: number;
-  activity_date: string | null;
+  activity_date: string | null; // Format: YYYY-MM-DD (YYYY-MM-01 if only month-year selected)
   cover_image_url: string | null;
   sort_order: number;
 }
@@ -56,7 +56,12 @@ export function formatActivityDate(isoDate: string | null): string {
     "Januari", "Februari", "Maret", "April", "Mei", "Juni",
     "Juli", "Agustus", "September", "Oktober", "November", "Desember",
   ];
-  const [year, month] = isoDate.split("-").map(Number);
+  const parts = isoDate.split("-").map(Number);
+  const [year, month, day] = parts;
   if (!year || !month) return isoDate;
+  // If day is 01, assume user only wanted month-year format
+  if (day && day !== 1) {
+    return `${day} ${months[month - 1]} ${year}`;
+  }
   return `${months[month - 1]} ${year}`;
 }

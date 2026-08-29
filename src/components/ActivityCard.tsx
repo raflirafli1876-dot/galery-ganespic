@@ -5,16 +5,9 @@ import { formatActivityDate, gradeLabel } from "@/lib/gallery-types";
 
 interface ActivityCardProps {
   activity: ActivityWithPhotos;
-  variant: "wide" | "tall" | "banner";
 }
 
-const VARIANT_CLASSES: Record<ActivityCardProps["variant"], string> = {
-  wide: "md:col-span-8 aspect-[3/2]",
-  tall: "md:col-span-4 aspect-[3/4] md:aspect-auto",
-  banner: "md:col-span-12 aspect-[16/9]",
-};
-
-export function ActivityCard({ activity, variant }: ActivityCardProps) {
+export function ActivityCard({ activity }: ActivityCardProps) {
   const cover = activity.cover_image_url ?? activity.photos[0]?.image_url ?? null;
   const excerpt = activity.description.split("\n")[0] ?? "";
 
@@ -22,7 +15,7 @@ export function ActivityCard({ activity, variant }: ActivityCardProps) {
     <Link
       to="/kegiatan/$slug"
       params={{ slug: activity.slug }}
-      className={`group relative block overflow-hidden rounded-2xl shadow-elegant transition-shadow duration-500 hover:shadow-lift ${VARIANT_CLASSES[variant]}`}
+      className="group relative block aspect-[4/3] overflow-hidden rounded-2xl shadow-elegant transition-shadow duration-500 hover:shadow-lift"
     >
       {cover ? (
         <img
@@ -42,7 +35,7 @@ export function ActivityCard({ activity, variant }: ActivityCardProps) {
           {gradeLabel(activity)}
           {activity.activity_date ? ` · ${formatActivityDate(activity.activity_date)}` : ""}
         </p>
-        <h3 className="mt-2 font-serif text-2xl leading-tight text-primary-foreground md:text-3xl">
+        <h3 className="mt-2 font-serif text-xl leading-tight text-primary-foreground md:text-2xl">
           {activity.title}
         </h3>
         <p className="mt-2 line-clamp-2 max-w-xl text-sm leading-relaxed text-primary-foreground/75">

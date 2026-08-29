@@ -8,5 +8,5 @@ export const listPublicActivities = createServerFn({ method: "GET" }).handler(as
 );
 
 export const getPublicActivityBySlug = createServerFn({ method: "GET" })
-  .inputValidator((data) => z.object({ slug: z.string().min(1).max(200) }).parse(data))
+  .validator((data) => z.object({ slug: z.string().min(1).max(200) }).parse(data))
   .handler(async ({ data }) => fetchPublicActivityBySlug(data.slug));
